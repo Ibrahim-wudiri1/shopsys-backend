@@ -1,0 +1,31 @@
+### Create tenant (super admin)
+POST http://localhost:5000/api/tenant/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+Content-Type: application/json
+
+{
+  "name": "TRADER",
+  "logo": "NULL"
+}
+
+### liste all tenant (super admin)
+GET http://localhost:5000/api/tenant/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+
+### get single tenant (super admin)
+GET http://localhost:5000/api/tenant/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+
+### update tenant (super admin)
+PUT http://localhost:5000/api/tenant/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+Content-Type: application/json
+
+{
+  "name": "TRADER",
+  "logo": "NULL"
+}
+
+### get single tenant (super admin)
+DELETE http://localhost:5000/api/tenant/d05c9a60-8fff-4c33-9e6b-773a7cefe1aa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA

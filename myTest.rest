@@ -8,10 +8,10 @@ Content-Type: application/json
    "tenantName": "New Buotique",
     "logo": "null",
     "admin": {
-      "name": "Karate",
-      "email": "karate@gmail.com",
+      "name": "Wudiri",
+      "email": "wudiri1@gmail.com",
       "password": "wudiri",
-      "role": "admin"
+      "role": "SUPER_ADMIN"
     }
  }
 
@@ -20,10 +20,32 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "karate@gmail.com",
+  "email": "wudiri1@gmail.com",
   "password": "wudiri"
 }
 
 ### Get Current User
 GET http://localhost:5000/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmNzYyNDlmLWMyNjItNDk0OS1hNTJhLWU4NTQxYTk1YjlkYyIsImVtYWlsIjoia2FyYXRlQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsInRlbmFudElkIjoiZDA1YzlhNjAtOGZmZi00YzMzLTllNmItNzczYTdjZWZlMWFhIiwiaWF0IjoxNzY5NDMzMzA3LCJleHAiOjE3NzAwMzgxMDd9.B1zMuHiBqYQVJivJT2HZuQ1bYun4YsUpT8lIbIqQ3nM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+
+### Create Cashier
+POST http://localhost:5000/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTUwMjk4MiwiZXhwIjoxNzcwMTA3NzgyfQ.p6vlOjRyMGBR0kB-T4DWF7EzF7OjBR1ZFwuHZQJ-sIg
+Content-Type: application/json
+
+{
+  "name": "Cashier One",
+  "email": "cashier@demo.com",
+  "password": "Password123",
+  "role": "CASHIER"
+}
+
+### update user provide ID 
+PUT http://localhost:5000/api/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTUwMjk4MiwiZXhwIjoxNzcwMTA3NzgyfQ.p6vlOjRyMGBR0kB-T4DWF7EzF7OjBR1ZFwuHZQJ-sIg
+Content-Type: application/json
+
+{
+  "name": "wudiri",
+  "role": "TENANT_ADMIN"
+}

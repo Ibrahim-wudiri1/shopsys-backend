@@ -1,6 +1,24 @@
 import { prisma } from "../../config/db.js";
 
 export const tenantService = {
+    creatTenant: async (id, data) => {
+
+        const existTenant = await prisma.tenant.findFirst({
+            where: {name: data.name},
+        });
+
+        if(existTenant) 
+            throw new  Error("Tenant with this name already exist. add number or anything to diffrentiate");
+
+        const tenant = await prisma.tenant.create({
+            data:{
+                "name": data.name,
+                "logo": data.logo
+            }
+        });
+
+        return tenant;
+    },
     getTenantById: async (tenantId) => {
         const tenant = await prisma.tenant.findUnique({
             where: {id: tenantId},

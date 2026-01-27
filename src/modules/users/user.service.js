@@ -3,6 +3,11 @@ import {prisma} from "../../config/db.js";
 
 export const userService = {
     createUser: async (tenantId, data) => {
+        const allowedRoles = ["TENANT_ADMIN", "CASHIER", "STAFF"];
+        if(!allowedRoles.includes(data.role)){
+            throw new Error("Invalid role");
+        }
+
         const existing = await prisma.user.findUnique({where: {email: data.email}});
         if (existing) throw new Error("User with this email already exist");
 
@@ -18,7 +23,13 @@ export const userService = {
             },
         });
 
-        return user;
+         return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            tenantId: user.tenantId,
+        };
     },
 
     getAllUsers: async (tenantId) => {
@@ -33,7 +44,13 @@ export const userService = {
         const user = await prisma.user.findUnique({where: {id, tenantId}});
         if (!user) throw new Error("User not found");
 
-        return user;
+         return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            tenantId: user.tenantId,
+        };
     },
 
     updateUser: async (tenantId, id, data) => {

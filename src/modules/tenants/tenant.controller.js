@@ -1,6 +1,15 @@
 import { tenantService } from "./tenant.service.js";
 
 export const tenantController ={
+    create: async (req, res, next) => {
+        try {
+            const result = await tenantService.creatTenant(req.user.id, req.body);
+            res.status(201).json(result);
+        } catch (err) {
+            next(err);
+        }
+        
+    },
     getTenant: async (req, res, next) => {
         try {
             const result = await tenantService.getTenantById(req.user.tenantId);
@@ -22,8 +31,9 @@ export const tenantController ={
     },
 
     deleteTenant: async (req, res, next) => {
+        const tenantId = req.params;
         try {
-            const result = await tenantService.deleteTenant(req.user.tenantId);
+            const result = await tenantService.deleteTenant(tenantId);
             res.json(result);
         } catch (err) {
             next(err);

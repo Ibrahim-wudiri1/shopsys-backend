@@ -15,6 +15,12 @@ export const authService = {
         // hash password
         const hashedPassword = await bcrypt.hash(admin.password, 10);
 
+        // check if user exist
+        const existUser = await prisma.user.findUnique({
+            where: {email: admin.email},
+        });
+
+        if(existUser) throw new Error("User with this email already exist");
         //create admin user
         const user = await prisma.user.create({
             data:{
