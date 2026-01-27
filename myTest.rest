@@ -1,0 +1,29 @@
+###
+GET http://localhost:5000/api/tenant/
+###
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+   "tenantName": "New Buotique",
+    "logo": "null",
+    "admin": {
+      "name": "Karate",
+      "email": "karate@gmail.com",
+      "password": "wudiri",
+      "role": "admin"
+    }
+ }
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "karate@gmail.com",
+  "password": "wudiri"
+}
+
+### Get Current User
+GET http://localhost:5000/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZmNzYyNDlmLWMyNjItNDk0OS1hNTJhLWU4NTQxYTk1YjlkYyIsImVtYWlsIjoia2FyYXRlQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsInRlbmFudElkIjoiZDA1YzlhNjAtOGZmZi00YzMzLTllNmItNzczYTdjZWZlMWFhIiwiaWF0IjoxNzY5NDMzMzA3LCJleHAiOjE3NzAwMzgxMDd9.B1zMuHiBqYQVJivJT2HZuQ1bYun4YsUpT8lIbIqQ3nM
