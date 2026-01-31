@@ -22,19 +22,20 @@ export const productService ={
                 sku: data.sku,
                 category: data.category,
                 costPrice: data.costPrice,
+                quantity: data.quantity,
                 sellingPrice: data.sellingPrice,
                 minimumStock: data.minimumStock || 0,
             },
         });
 
         //initialize inventory record
-        await prisma.inventory.create({
-            data: {
-                tenantId,
-                productId: product.id,
-                currentQty: 0,
-            },
-        });
+        // await prisma.inventory.create({
+        //     data: {
+        //         tenantId,
+        //         productId: product.id,
+        //         currentQty: 0,
+        //     },
+        // });
 
         return product;
     },
@@ -42,9 +43,6 @@ export const productService ={
     getProduct: async (tenantId, shopId) => {
         return await prisma.product.findMany({
             where: {tenantId, shopId},
-            include: {
-                inventory: true,
-            },
             orderBy: {createdAt: "desc"},
         });
     },
@@ -52,7 +50,7 @@ export const productService ={
     getProductById: async (tenantId, id) => {
         const product = await prisma.product.findFirst({
             where: {id: id, tenantId},
-            include: {inventory: true},
+            // include: {inventory: true},
         });
 
         if (!product) throw new Error("Product not found");
@@ -62,7 +60,7 @@ export const productService ={
 
     updateProduct: async (tenantId, id ,data) => {
         const product = await prisma.product.findFirst({
-            where: { id, tenantId},
+            where: { id: id, tenantId},
         });
 
         if(!product) throw new Error("Product not found");
@@ -75,6 +73,7 @@ export const productService ={
                 category: data.category,
                 costPrice: data.costPrice,
                 sellingPrice: data.sellingPrice,
+                quantity: data.quantity,
                 minimumStock: data.minimumStock,
             },
         });

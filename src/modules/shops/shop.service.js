@@ -2,6 +2,14 @@ import {prisma} from "../../config/db.js";
 
 export const shopService = {
     createShop: async (tenantId, data) => {
+
+        const existShop = await prisma.shop.findFirst({
+            where: {name: data.name, location: data.location},
+        });
+
+        if(existShop){
+            throw new Error(`Shop with this name "${data.name}", and location "${data.location}" already exist`);
+        }
         const shop = await prisma.shop.create({
             data: {
                 tenantId,
@@ -14,7 +22,7 @@ export const shopService = {
 
     getShops: async (tenantId) => {
         return await prisma.shop.findMany({
-            where: {tenantId}, orderBy: {createdAt: "desc"} });
+            where: {tenantId},});
         // return shops;
     },
 

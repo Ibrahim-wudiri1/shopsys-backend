@@ -1,0 +1,14 @@
+### create shop
+POST http://localhost:5000/api/shops/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+Content-Type: application/json
+
+{
+  "name": "Phones Shop",
+  "location": "Palladan"
+}
+
+### create shop
+GET http://localhost:5000/api/shops/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+Content-Type: application/json
