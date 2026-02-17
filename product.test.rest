@@ -1,32 +1,32 @@
 ### Creating product ( dont forget u create inventory model)
 POST http://localhost:5000/api/products/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc3MDIyODk1NCwiZXhwIjoxNzcwODMzNzU0fQ.md2_WCacmyvAsGWlvCRideD7ZAPaGFINnE3mXuJEs-U
 Content-Type: application/json
 
  {
     "shopId": "99accc13-96d1-4658-922d-496f6c647aec",
-    "name": "iphone 16",
-    "sku": "iphone 16",
+    "name": "Galaxy A15",
+    "sku": "Galaxy A15",
     "category": "mobile phone",
-    "costPrice": 700000,
-    "sellingPrice": 900000,
+    "costPrice": 150000,
+    "sellingPrice": 200000,
     "quantity": 100,
     "minimumStock": 10
 }
 
 ### Get all products
 GET http://localhost:5000/api/products/?"99accc13-96d1-4658-922d-496f6c647aec"
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc3MDIyODk1NCwiZXhwIjoxNzcwODMzNzU0fQ.md2_WCacmyvAsGWlvCRideD7ZAPaGFINnE3mXuJEs-U
 Content-Type: application/
 
 ### Get one product
-GET http://localhost:5000/api/products/"71b5c139-e5a0-45d6-9d05-3f82081d2f7a"
+GET http://localhost:5000/api/products/71b5c139-e5a0-45d6-9d05-3f82081d2f7a
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
 Content-Type: application/json
 
 ### Update product
-PUT http://localhost:5000/api/products/"71b5c139-e5a0-45d6-9d05-3f82081d2f7a"
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc2OTU0Mzg1NiwiZXhwIjoxNzcwMTQ4NjU2fQ.UU04sbb10rcXB7s0XFJ7-Ci-y3dpxGh-EqDl7kuNgHA
+PUT http://localhost:5000/api/products/71b5c139-e5a0-45d6-9d05-3f82081d2f7a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFiOWNkZTQ5LTdjYmMtNDFmOS04NGU3LTY5YWI2ZjdjMDBjNSIsImVtYWlsIjoid3VkaXJpMUBnbWFpbC5jb20iLCJyb2xlIjoiU1VQRVJfQURNSU4iLCJ0ZW5hbnRJZCI6ImNlMGEyOWM3LWUzZDUtNGViMi1iYzIzLTg3NGFjNmM2YjMxNSIsImlhdCI6MTc3MDIyODk1NCwiZXhwIjoxNzcwODMzNzU0fQ.md2_WCacmyvAsGWlvCRideD7ZAPaGFINnE3mXuJEs-U
 Content-Type: application/json
 
  {

@@ -1,7 +1,7 @@
 import { prisma } from "../../config/db.js";
 
 export const salesService = {
-  createSale: async (tenantId, shopId, userId, items, paymentMethod) => {
+  createSale: async (tenantId, shopId, userId, items, paymentType) => {
     if (!items || items.length === 0) {
       throw new Error("No items in sale");
     }
@@ -23,7 +23,7 @@ export const salesService = {
           throw new Error(`Inventory not found for product ${product.name}`);
         }
 
-        if (product.inventory.qty < item.quantity) {
+        if (product.inventory.currentQty < item.quantity) {
           throw new Error(`Insufficient stock for ${product.name}`);
         }
 
@@ -32,7 +32,7 @@ export const salesService = {
 
         await tx.inventory.update({
           where: { id: product.inventory.id },
-          data: { qty: { decrement: item.quantity } },
+          data: { currentQty: { decrement: item.quantity } },
         });
 
         await tx.stockMovement.create({
@@ -51,9 +51,9 @@ export const salesService = {
         data: {
           tenantId,
           shopId,
-          userId,
+          cashierId: userId,
           totalAmount,
-          paymentMethod,
+          paymentType,
         },
       });
 
@@ -64,7 +64,6 @@ export const salesService = {
 
         await tx.saleItem.create({
           data: {
-            tenantId,
             saleId: sale.id,
             productId: item.productId,
             quantity: item.quantity,
@@ -92,9 +91,9 @@ export const salesService = {
     return prisma.sale.findMany({
       where,
       include: {
-        user: { select: { name: true } },
+        // user: { select: { name: true } },
         shop: { select: { name: true } },
-        saleItems: {
+        items: {
           include: {
             product: { select: { name: true, sku: true } },
           },
@@ -109,7 +108,7 @@ export const salesService = {
       where: { id, tenantId },
       include: {
         saleItems: { include: { product: true } },
-        user: { select: { name: true } },
+        // user: { select: { name: true } },
         shop: { select: { name: true } },
       },
     });

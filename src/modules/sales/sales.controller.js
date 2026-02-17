@@ -3,16 +3,18 @@ import { salesService } from "./sales.service.js";
 export const salesController = {
   create: async (req, res, next) => {
     try {
-      const { shopId, items, paymentMethod } = req.body;
+      const { shopId, items, paymentType } = req.body;
       const result = await salesService.createSale(
         req.user.tenantId,
         shopId,
         req.user.id,
         items,
-        paymentMethod
+        paymentType
       );
+      console.log(result);
       res.status(201).json(result);
     } catch (err) {
+      console.log(`Error: ${err}`);
       next(err);
     }
   },
@@ -24,6 +26,7 @@ export const salesController = {
         startDate,
         endDate,
       });
+      console.log(sales);
       res.json(sales);
     } catch (err) {
       next(err);

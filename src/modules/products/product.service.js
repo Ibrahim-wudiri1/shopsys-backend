@@ -28,14 +28,14 @@ export const productService ={
             },
         });
 
-        //initialize inventory record
-        // await prisma.inventory.create({
-        //     data: {
-        //         tenantId,
-        //         productId: product.id,
-        //         currentQty: 0,
-        //     },
-        // });
+        // initialize inventory record
+        await prisma.inventory.create({
+            data: {
+                tenantId,
+                productId: product.id,
+                currentQty: data.quantity,
+            },
+        });
 
         return product;
     },
@@ -43,6 +43,7 @@ export const productService ={
     getProduct: async (tenantId, shopId) => {
         return await prisma.product.findMany({
             where: {tenantId, shopId},
+            include: {inventory: true},
             orderBy: {createdAt: "desc"},
         });
     },
@@ -50,7 +51,7 @@ export const productService ={
     getProductById: async (tenantId, id) => {
         const product = await prisma.product.findFirst({
             where: {id: id, tenantId},
-            // include: {inventory: true},
+            include: {inventory: true},
         });
 
         if (!product) throw new Error("Product not found");

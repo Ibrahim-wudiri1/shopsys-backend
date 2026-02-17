@@ -8,112 +8,159 @@ datasource db {
 }
 
 model Tenant {
-  id        String    @id @default(uuid())
-  name      String
-  logo      String?
-  users     User[]
-  shops     Shop[]
-  products  Product[]
-  sales     Sale[]
-  suppliers Supplier[]
-  customers Customer[]
-  createdAt DateTime  @default(now())
+  id             String          @id @default(uuid())
+  name           String
+  logo           String?
+  users          User[]
+  shops          Shop[]
+  products       Product[]
+  sales          Sale[]
+  suppliers      Supplier[]
+  customers      Customer[]
+  createdAt      DateTime        @default(now())
+  inventories    Inventory[]
+  stockMovements StockMovement[]
 }
 
 model User {
-  id        String   @id @default(uuid())
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  name      String
-  email     String   @unique
-  password  String
-  role      String
-  createdAt DateTime @default(now())
+  id             String          @id @default(uuid())
+  tenantId       String
+  tenant         Tenant          @relation(fields: [tenantId], references: [id])
+  name           String
+  email          String          @unique
+  password       String
+  role           String
+  createdAt      DateTime        @default(now())
+  stockMovements StockMovement[]
 }
 
 model Shop {
-  id        String   @id @default(uuid())
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  name      String
-  location  String?
+  id       String  @id @default(uuid())
+  tenantId String
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  name     String
+  location String?
 
-  products  Product[]
-  sales     Sale[]
+  products Product[]
+  sales    Sale[]
 }
 
 model Supplier {
-  id        String   @id @default(uuid())
-  tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
-  name      String
-  contact   String?
+  id       String  @id @default(uuid())
+  tenantId String
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  name     String
+  contact  String?
 
-  products  Product[]
+  products Product[]
 }
 
 model Product {
-  id            String     @id @default(uuid())
-  tenantId      String
-  shopId        String
-  supplierId    String?
+  id         String  @id @default(uuid())
+  tenantId   String
+  shopId     String
+  supplierId String?
 
-  name          String
-  sku           String
-  category      String?
-  costPrice     Float
-  sellingPrice  Float
-  quantity      Int        @default(0)
-  minimumStock  Int
+  name         String
+  sku          String
+  category     String?
+  costPrice    Float
+  sellingPrice Float
+  quantity     Int     @default(0)
+  minimumStock Int
 
-  tenant        Tenant     @relation(fields: [tenantId], references: [id])
-  shop          Shop       @relation(fields: [shopId], references: [id])
-  supplier      Supplier?  @relation(fields: [supplierId], references: [id])
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  shop     Shop      @relation(fields: [shopId], references: [id])
+  supplier Supplier? @relation(fields: [supplierId], references: [id])
 
-  saleItems     SaleItem[]
-  createdAt     DateTime   @default(now())
+  inventory      Inventory?
+  saleItems      SaleItem[]
+  createdAt      DateTime        @default(now())
+  stockMovements StockMovement[]
+
+  @@index([tenantId, shopId])
+}
+
+model Inventory {
+  id         String   @id @default(uuid())
+  tenantId   String
+  productId  String   @unique
+  currentQty Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([tenantId])
+}
+
+model StockMovement {
+  id        String            @id @default(uuid())
+  tenantId  String
+  productId String
+  userId    String
+  type      StockMovementType
+  quantity  Int
+  note      String?
+  createdAt DateTime          @default(now())
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([tenantId, productId])
+}
+
+enum StockMovementType {
+  IN
+  OUT
 }
 
 model Customer {
-  id            String   @id @default(uuid())
-  tenantId      String
-  tenant        Tenant   @relation(fields: [tenantId], references: [id])
+  id       String @id @default(uuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
 
   name          String
   phone         String?
-  loyaltyPoints Int      @default(0)
+  loyaltyPoints Int     @default(0)
 
-  sales         Sale[]
-  createdAt     DateTime @default(now())
+  sales     Sale[]
+  createdAt DateTime @default(now())
 }
 
 model Sale {
-  id           String     @id @default(uuid())
-  tenantId     String
-  shopId       String
-  customerId   String?
-  cashierId    String
+  id         String  @id @default(uuid())
+  tenantId   String
+  shopId     String
+  customerId String?
+  cashierId  String
 
-  totalAmount  Float
-  paymentType  String
-  discount     Float?    
+  totalAmount Float
+  paymentType String
+  discount    Float?
 
-  tenant       Tenant     @relation(fields: [tenantId], references: [id])
-  shop         Shop       @relation(fields: [shopId], references: [id])
-  customer     Customer?  @relation(fields: [customerId], references: [id])
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  shop     Shop      @relation(fields: [shopId], references: [id])
+  customer Customer? @relation(fields: [customerId], references: [id])
 
-  items        SaleItem[]
-  createdAt    DateTime   @default(now())
+  items     SaleItem[]
+  createdAt DateTime   @default(now())
+
+  @@index([tenantId, shopId])
 }
 
 model SaleItem {
-  id        String   @id @default(uuid())
-  saleId   String
+  id        String @id @default(uuid())
+  saleId    String
   productId String
 
   quantity Int
   price    Float
 
-  sale     Sale     @relation(fields: [saleId], references: [id])
-  product  Product  @relation(fields: [productId], references: [id])
+  sale    Sale    @relation(fields: [saleId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([saleId])
 }

@@ -5,7 +5,7 @@ export const inventoryService = {
         return await prisma.inventory.findMany({
             where: {tenantId, product: {shopId}},
             include: {product: true},
-            erderBy: {updatedAt: "desc"},
+            orderBy: {updatedAt: "desc"},
         });
     },
 
@@ -72,7 +72,7 @@ export const inventoryService = {
         return await prisma.stockMovement.findMany({
             where: {tenantId, productId},
             include: {product: true, user: {select: {name: true, email: true}}},
-            orderby: {createdAt: "desc"},
+            orderBy: {createdAt: "desc"},
         });
     },
 }
