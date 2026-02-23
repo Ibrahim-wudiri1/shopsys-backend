@@ -5,6 +5,8 @@ export const salesService = {
     if (!items || items.length === 0) {
       throw new Error("No items in sale");
     }
+    console.log(items);
+    
 
     return prisma.$transaction(async (tx) => {
       let totalAmount = 0;
