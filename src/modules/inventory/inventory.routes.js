@@ -6,9 +6,9 @@ import {authorize} from "../../middleware/authorize.js";
 
 const router = Router();
 
-router.get("/", auth, authorize("STAFF", "TENANT_ADMIN"), tenantGuard, inventoryController.list);
-router.post("/stock-in", auth, authorize("STAFF", "TENANT_ADMIN"), tenantGuard, inventoryController.stockIn);
-router.post("/stock-out", auth, authorize("STAFF", "TENANT_ADMIN"), tenantGuard, inventoryController.stockOut);
-router.get("/movements/:productId", auth, authorize("STAFF", "TENANT_ADMIN"), tenantGuard, inventoryController.movementHistory);
+router.get("/", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.list);
+router.post("/stock-in", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.stockIn);
+router.post("/stock-out", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.stockOut);
+router.get("/movements/:productId", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.movementHistory);
 
 export default router;

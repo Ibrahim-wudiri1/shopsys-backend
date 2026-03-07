@@ -49,6 +49,20 @@ export const reportsController = {
     }
   },
 
+  salesLast7Days: async (req, res, next) => {
+    try {
+
+      const data = await reportsService.getSalesLast7Days(
+        req.user.tenantId
+      );
+
+      res.json(data);
+
+    } catch (err) {
+      next(err);
+    }
+  },
+
   overview: async (req, res, next) => {
     try {
       const data = await reportsService.getOverview(req.user.tenantId);

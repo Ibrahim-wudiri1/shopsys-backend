@@ -100,6 +100,50 @@ export const reportsService = {
     };
   },
 
+  getSalesLast7Days: async (tenantId) => {
+
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 6);
+
+    const sales = await prisma.sale.findMany({
+      where: {
+        tenantId,
+        createdAt: {
+          gte: sevenDaysAgo,
+        },
+      },
+      select: {
+        totalAmount: true,
+        createdAt: true,
+      },
+    });
+
+    const result = {};
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date();
+      d.setDate(today.getDate() - i);
+
+      const key = d.toISOString().slice(0, 10);
+      result[key] = 0;
+    }
+
+    sales.forEach((sale) => {
+      const key = sale.createdAt.toISOString().slice(0, 10);
+      if (result[key] !== undefined) {
+        result[key] += sale.totalAmount;
+      }
+    });
+
+    return Object.entries(result)
+      .map(([date, total]) => ({
+        date,
+        total,
+      }))
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+  },
+  
   getOverview: async (tenantId) => {
     const todayStart = new Date();
     todayStart.setHours(0, 0, 0, 0);

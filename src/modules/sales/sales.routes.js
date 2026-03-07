@@ -6,8 +6,8 @@ import { authorize } from "../../middleware/authorize.js";
 
 const router = Router();
 
-router.post("/", auth, authorize("CASHIER", "TENANT_ADMIN"), tenantGuard, salesController.create);
-router.get("/", auth, authorize("CASHIER", "TENANT_ADMIN"), tenantGuard, salesController.list);
-router.get("/:id", auth, authorize("CASHIER", "TENANT_ADMIN"), tenantGuard, salesController.getOne);
+router.post("/", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.create);
+router.get("/", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.list);
+router.get("/:id", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.getOne);
 
 export default router;
