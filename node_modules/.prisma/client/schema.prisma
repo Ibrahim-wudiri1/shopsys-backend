@@ -20,29 +20,73 @@ model Tenant {
   createdAt      DateTime        @default(now())
   inventories    Inventory[]
   stockMovements StockMovement[]
+  categories     Category[]
+  purchases      Purchase[]
 }
 
 model User {
-  id             String          @id @default(uuid())
-  tenantId       String
-  tenant         Tenant          @relation(fields: [tenantId], references: [id])
-  name           String
-  email          String          @unique
-  password       String
-  role           String
-  createdAt      DateTime        @default(now())
+  id       String @id @default(uuid())
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  name     String
+  email    String
+  password String
+  role     String
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+
+  userShops      UserShop[]
   stockMovements StockMovement[]
+  sales          Sale[]
+  purchases      Purchase[]
+
+  @@unique([tenantId, email])
+  @@index([tenantId])
 }
 
 model Shop {
-  id       String  @id @default(uuid())
+  id       String @id @default(uuid())
   tenantId String
-  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
   name     String
   location String?
 
   products Product[]
   sales    Sale[]
+
+  userShops UserShop[]
+  purchases Purchase[]
+
+  @@index([tenantId])
+}
+
+model UserShop {
+  id     String @id @default(uuid())
+  userId String
+  shopId String
+
+  user User @relation(fields: [userId], references: [id])
+  shop Shop @relation(fields: [shopId], references: [id])
+
+  @@unique([userId, shopId])
+  @@index([shopId])
+}
+
+model Category {
+  id       String @id @default(uuid())
+  tenantId String
+  name     String
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  products Product[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([tenantId, name])
+  @@index([tenantId])
 }
 
 model Supplier {
@@ -52,7 +96,8 @@ model Supplier {
   name     String
   contact  String?
 
-  products Product[]
+  products  Product[]
+  purchases Purchase[]
 }
 
 model Product {
@@ -63,7 +108,7 @@ model Product {
 
   name         String
   sku          String
-  category     String?
+  categoryId   String?
   costPrice    Float
   sellingPrice Float
   quantity     Int     @default(0)
@@ -72,13 +117,51 @@ model Product {
   tenant   Tenant    @relation(fields: [tenantId], references: [id])
   shop     Shop      @relation(fields: [shopId], references: [id])
   supplier Supplier? @relation(fields: [supplierId], references: [id])
+  category Category? @relation(fields: [categoryId], references: [id])
 
   inventory      Inventory?
   saleItems      SaleItem[]
   createdAt      DateTime        @default(now())
   stockMovements StockMovement[]
+  purchaseItems  PurchaseItem[]
+
+  @@index([tenantId, sku])
+  @@index([shopId])
+}
+
+model Purchase {
+  id         String @id @default(uuid())
+  tenantId   String
+  shopId     String
+  supplierId String
+  createdBy  String
+
+  totalAmount Float
+
+  tenant   Tenant   @relation(fields: [tenantId], references: [id])
+  shop     Shop     @relation(fields: [shopId], references: [id])
+  supplier Supplier @relation(fields: [supplierId], references: [id])
+  creator  User     @relation(fields: [createdBy], references: [id])
+
+  items PurchaseItem[]
+
+  createdAt DateTime @default(now())
 
   @@index([tenantId, shopId])
+}
+
+model PurchaseItem {
+  id         String @id @default(uuid())
+  purchaseId String
+  productId  String
+
+  quantity Int
+  cost     Float
+
+  purchase Purchase @relation(fields: [purchaseId], references: [id])
+  product  Product  @relation(fields: [productId], references: [id])
+
+  @@index([purchaseId])
 }
 
 model Inventory {
@@ -93,6 +176,7 @@ model Inventory {
   product Product @relation(fields: [productId], references: [id])
 
   @@index([tenantId])
+  @@index([productId])
 }
 
 model StockMovement {
@@ -110,6 +194,7 @@ model StockMovement {
   user    User    @relation(fields: [userId], references: [id])
 
   @@index([tenantId, productId])
+  @@index([productId, createdAt])
 }
 
 enum StockMovementType {
@@ -145,10 +230,12 @@ model Sale {
   shop     Shop      @relation(fields: [shopId], references: [id])
   customer Customer? @relation(fields: [customerId], references: [id])
 
+  cashier   User       @relation(fields: [cashierId], references: [id])
   items     SaleItem[]
   createdAt DateTime   @default(now())
 
   @@index([tenantId, shopId])
+  @@index([tenantId, shopId, createdAt])
 }
 
 model SaleItem {
@@ -163,4 +250,5 @@ model SaleItem {
   product Product @relation(fields: [productId], references: [id])
 
   @@index([saleId])
+  @@index([productId])
 }

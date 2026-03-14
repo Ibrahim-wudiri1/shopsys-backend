@@ -109,9 +109,11 @@ export const salesService = {
     const sale = await prisma.sale.findFirst({
       where: { id, tenantId },
       include: {
-        saleItems: { include: { product: true } },
+        items: { include: { product: true } },
         // user: { select: { name: true } },
         shop: { select: { name: true } },
+        tenant: true,
+        cashier: true
       },
     });
 

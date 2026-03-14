@@ -3,7 +3,7 @@ import { userService } from "./user.service.js";
 export const userController ={
     create: async (req, res, next) => {
         try {
-            const user = await userService.createUser(req.user.tenantId, req.body);
+            const user = await userService.createUser(req.user.tenantId, req.body, req.user.role);
             res.status(201).json(user);
         } catch (err) {
             next(err);
@@ -30,7 +30,7 @@ export const userController ={
 
     update: async (req, res, next) => {
         try {
-            const updated = await userService.updateUser(req.user.tenantId, req.params.id, req.body);
+            const updated = await userService.updateUser(req.user.tenantId, req.params.id, req.body, req.user.role);
             res.json(updated);
         } catch (err) {
             next(err);
@@ -46,3 +46,4 @@ export const userController ={
         }
     },
 };
+
