@@ -42,7 +42,7 @@ model User {
   sales          Sale[]
   purchases      Purchase[]
 
-  @@unique([tenantId, email])
+  @@unique([email])
   @@index([tenantId])
 }
 

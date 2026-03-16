@@ -3,7 +3,9 @@ import cors from "cors";
 import router from "./routes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
+
 export const createApp = () =>{
+
     const app = express();
     app.use(cors());
     app.use(express.json());

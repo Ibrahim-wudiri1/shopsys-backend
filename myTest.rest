@@ -8,10 +8,10 @@ Content-Type: application/json
    "tenantName": "New Buotique",
     "logo": "null",
     "admin": {
-      "name": "Wudiri",
-      "email": "wudiri1@gmail.com",
+      "name": "Ibrahin Wudiri",
+      "email": "wudiri2@gmail.com",
       "password": "wudiri",
-      "role": "SUPER_ADMIN"
+      "role": "TENANT_ADMIN"
     }
  }
 
