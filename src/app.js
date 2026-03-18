@@ -22,7 +22,7 @@ export const createApp = () =>{
 
 // Middleware
     app.use(cors({
-    origin: ['https://your-frontend.vercel.app', 'http://localhost:3000'],
+    origin: ['https://shopsys-six.vercel.app', 'http://localhost:5000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
     }));
