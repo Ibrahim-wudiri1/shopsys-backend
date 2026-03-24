@@ -4,7 +4,7 @@ export const shopService = {
     createShop: async (tenantId, data) => {
 
         const existShop = await prisma.shop.findFirst({
-            where: {name: data.name, location: data.location},
+            where: {tenantId, name: data.name, location: data.location},
         });
 
         if(existShop){
@@ -22,12 +22,20 @@ export const shopService = {
 
     getShops: async (tenantId) => {
         return await prisma.shop.findMany({
-            where: {tenantId},});
-        // return shops;
+            where: { tenantId },
+            include: {
+                userShops: {
+                include: {
+                    user: true,
+                },
+                },
+            },
+        });
     },
+    
 
     getShopById: async (tenantId, id) => {
-        const shop = await prisma.shop.findUnique({where: {id, tenantId}});
+        const shop = await prisma.shop.findFirst({where: {id, tenantId}});
         if(!shop) throw new Error("Shop not found");
 
         return shop;

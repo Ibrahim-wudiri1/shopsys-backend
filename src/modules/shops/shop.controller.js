@@ -39,7 +39,7 @@ export const shopController ={
 
     remove: async (req, res, next) => {
         try {
-            const result = await shopService.deleteShop(req.user.tenantId, req.body);
+            const result = await shopService.deleteShop(req.user.tenantId, req.params.id);
             res.json(result);
         } catch (err) {
             next(err);
