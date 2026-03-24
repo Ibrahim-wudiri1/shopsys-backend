@@ -9,7 +9,7 @@ Content-Type: application/json
     "logo": "null",
     "admin": {
       "name": "Ibrahin Wudiri",
-      "email": "wudiri2@gmail.com",
+      "email": "wudiri@gmail.com",
       "password": "wudiri",
       "role": "TENANT_ADMIN"
     }

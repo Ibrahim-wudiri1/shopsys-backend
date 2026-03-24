@@ -28,7 +28,7 @@ export const authService = {
                 name: admin.name,
                 email: admin.email,
                 password: hashedPassword,
-                role: "SUPER_ADMIN",
+                role: admin.role || "TENANT_ADMIN",
             },
         });
 
