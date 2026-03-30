@@ -117,7 +117,7 @@ model Product {
   tenant   Tenant    @relation(fields: [tenantId], references: [id])
   shop     Shop      @relation(fields: [shopId], references: [id])
   supplier Supplier? @relation(fields: [supplierId], references: [id])
-  category Category? @relation(fields: [categoryId], references: [id])
+  category Category? @relation(fields: [categoryId], references:[id])
 
   inventory      Inventory?
   saleItems      SaleItem[]
@@ -208,7 +208,9 @@ model Customer {
   tenant   Tenant @relation(fields: [tenantId], references: [id])
 
   name          String
+  email         String?
   phone         String?
+  address       String?
   loyaltyPoints Int     @default(0)
 
   sales     Sale[]

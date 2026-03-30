@@ -4,6 +4,7 @@ export const customerController = {
   create: async (req, res, next) => {
     try {
       const customer = await customerService.createCustomer(req.user.tenantId, req.body);
+      console.log("Customer data: ", customer);
       res.status(201).json(customer);
     } catch (err) {
       next(err);

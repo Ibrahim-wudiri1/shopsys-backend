@@ -9,6 +9,7 @@ import salesRoutes from "./modules/sales/sales.routes.js";
 import supplierRoutes from "./modules/suppliers/supplier.routes.js";
 import customerRoutes from "./modules/customers/customer.routes.js";
 import reportsRoutes from "./modules/reports/reports.routes.js";
+import categoriesRoutes from "./modules/categories/category.routes.js";
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/sales", salesRoutes);
 router.use("/suppliers", supplierRoutes);
 router.use("/customers", customerRoutes);
 router.use("/reports", reportsRoutes);
+router.use("/category", categoriesRoutes);
 
 export default router;
