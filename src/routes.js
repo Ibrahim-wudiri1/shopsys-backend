@@ -10,6 +10,8 @@ import supplierRoutes from "./modules/suppliers/supplier.routes.js";
 import customerRoutes from "./modules/customers/customer.routes.js";
 import reportsRoutes from "./modules/reports/reports.routes.js";
 import categoriesRoutes from "./modules/categories/category.routes.js";
+import userShopRoutes from "./modules/userShop/userShop.routes.js";
+import billingRoutes from "./modules/billing/billing.routes.js";
 
 const router = Router();
 
@@ -24,5 +26,8 @@ router.use("/suppliers", supplierRoutes);
 router.use("/customers", customerRoutes);
 router.use("/reports", reportsRoutes);
 router.use("/category", categoriesRoutes);
+router.use("/shops", userShopRoutes);
+
+router.use("/billing", billingRoutes);
 
 export default router;

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../config/db.js";
 import {signToken} from "../../utils/jwt.js";
+import { paystack } from "../../config/paystack.js";
 
 export const authService = {
     register: async ({tenantName, logo, admin}) => {
@@ -31,6 +32,26 @@ export const authService = {
                 role: admin.role || "TENANT_ADMIN",
             },
         });
+
+        // paystack customer
+        const paystackCustomer = await paystack.post("/customer", {
+            email: admin.email,
+            first_name: admin.name,
+        });
+
+       const trialEnd = new Date();
+        trialEnd.setDate(trialEnd.getDate() + 14);
+
+        await prisma.subscription.create({
+            data: {
+                tenantId: tenant.id,
+                paystackCustomerId: paystackCustomer.data.data.customer_code,
+                status: "trialing",
+                plan: "trial",
+                currentPeriodEnd: trialEnd,
+            },
+        });
+        
 
         //generate token
         const token = signToken({

@@ -20,6 +20,7 @@ model Tenant {
   createdAt      DateTime        @default(now())
   inventories    Inventory[]
   stockMovements StockMovement[]
+  subscriptions Subscription?
   categories     Category[]
   purchases      Purchase[]
 }
@@ -253,4 +254,21 @@ model SaleItem {
 
   @@index([saleId])
   @@index([productId])
+}
+
+model Subscription {
+  id                String   @id @default(uuid())
+  tenantId          String   @unique
+  tenant            Tenant   @relation(fields: [tenantId], references: [id])
+
+  paystackCustomerId String?
+  paystackSubCode    String?
+  paystackEmailToken String?
+
+  status            String   // trialing, active, canceled
+  plan              String   // monthly / yearly
+  currentPeriodEnd  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

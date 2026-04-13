@@ -1,6 +1,7 @@
 import {prisma} from "../../config/db.js";
 
 export const productService ={
+    
     createProduct: async (tenantId, data) => {
         const shop = await prisma.shop.findFirst({
             where: { id: data.shopId, tenantId},

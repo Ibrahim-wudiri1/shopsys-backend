@@ -13,14 +13,14 @@ export const reportsService = {
     const sales = await prisma.sale.findMany({
       where,
       include: {
-        saleItems: true,
+        items: true,
       },
     });
 
     const totalSales = sales.reduce((sum, s) => sum + s.totalAmount, 0);
     const totalTransactions = sales.length;
     const totalItemsSold = sales.reduce(
-      (sum, s) => sum + s.saleItems.reduce((a, i) => a + i.quantity, 0),
+      (sum, s) => sum + s.items.reduce((a, i) => a + i.quantity, 0),
       0
     );
 

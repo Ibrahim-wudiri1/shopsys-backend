@@ -7,6 +7,7 @@ const router = Router();
 //   authorize("TENANT_ADMIN", "MANAGER"),
 
 router.get("/sales-summary", auth, tenantGuard, reportsController.salesSummary);
+router.get("/summary", auth, tenantGuard, reportsController.summary);
 router.get("/top-products", auth, tenantGuard, reportsController.topProducts);
 router.get("/low-stock", auth, tenantGuard, reportsController.lowStock);
 router.get("/supplier-activity", auth, tenantGuard, reportsController.supplierActivity);

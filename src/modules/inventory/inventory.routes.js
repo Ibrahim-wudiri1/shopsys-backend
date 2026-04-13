@@ -3,6 +3,7 @@ import { inventoryController } from "./inventory.controller.js";
 import {auth} from "../../middleware/auth.js";
 import {tenantGuard} from "../../middleware/tenantGuard.js";
 import {authorize} from "../../middleware/authorize.js";
+// import {shopAccess} from "../../middleware/shopAccess.js"
 
 const router = Router();
 

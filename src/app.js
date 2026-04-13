@@ -4,6 +4,8 @@ import router from "./routes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { PrismaClient } from '@prisma/client';
 
+import {handlePaystackWebhook} from "./modules/billing/webhook.js";
+
 
 
 export const createApp = () =>{
@@ -26,6 +28,8 @@ export const createApp = () =>{
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true
     }));
+
+    app.post("/paystack/webhook", express.json(), handlePaystackWebhook);
     app.use(express.json());
     app.use("/api", router);
     app.use(errorHandler);

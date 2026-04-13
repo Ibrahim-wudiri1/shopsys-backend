@@ -9,11 +9,41 @@ export const reportsController = {
         startDate,
         endDate
       );
+      console.log("summary result: ", result);
       res.json(result);
     } catch (err) {
       next(err);
     }
   },
+
+  // Add this method to reportsController
+summary: async (req, res, next) => {
+  try {
+    const tenantId = req.user.tenantId;
+
+    // Run all queries in parallel for better performance
+    const [overview, topProducts, lowStock] = await Promise.all([
+      reportsService.getOverview(tenantId),
+      reportsService.getTopSellingProducts(tenantId, 10),   // limit 10
+      reportsService.getLowStockProducts(tenantId, 5),      // threshold 5
+    ]);
+
+    const result = {
+      salesToday: overview?.salesToday || 0,
+      salesMonth: overview?.salesMonth || 0,
+      totalCustomers: overview?.totalCustomers || 0,
+      lowStock: lowStock?.length || 0,           // or lowStock.count if you return count
+      topProducts: topProducts || [],
+    };
+
+    console.log("Dashboard summary result:", result);
+    res.json(result);
+
+  } catch (err) {
+    console.error("Summary endpoint error:", err);
+    next(err);
+  }
+},
 
   topProducts: async (req, res, next) => {
     try {
