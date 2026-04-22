@@ -17,6 +17,16 @@ export const authController = {
         }
     },
 
+    getSubscription: async (req, res, next) => {
+        try {
+            const tenantId = req.user.tenantId;
+            const subscription = await authService.getSubscription(tenantId);
+            res.json(subscription);
+        } catch (err) {
+            next(err);
+        }
+    },
+
     login: async (req, res, next) =>{
         try {
             const {email, password} = req.body;

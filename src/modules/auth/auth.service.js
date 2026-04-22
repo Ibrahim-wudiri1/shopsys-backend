@@ -63,6 +63,12 @@ export const authService = {
         return {tenant, user, token};
     },
 
+    getSubscription: async (tenantId) => {
+        return await prisma.subscription.findUnique({
+            where: {tenantId},
+        });
+    },
+    
     login: async ({email, password}) => {
         const user = await prisma.user.findUnique({
             where: {email},

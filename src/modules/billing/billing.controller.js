@@ -2,16 +2,51 @@ import { prisma } from "../../config/db.js";
 
 import { paystack } from "../../config/paystack.js";
 
+const planOptions = {
+  "PLN_68pszny66jyelrp": {
+    amount: 2900000,
+    label: "Monthly",
+    durationDays: 30,
+  },
+  "PLN_xckemh2qcx82fq4": {
+    amount: 29000000,
+    label: "Yearly",
+    durationDays: 365,
+  },
+};
+
 export const initializePayment = async (req, res) => {
   const user = req.user;
   const { planCode } = req.body;
+
+  const plan = planOptions[planCode];
+  if (!plan) {
+    return res.status(400).json({ error: "Invalid plan code" });
+  }
 
   const subscription = await prisma.subscription.findUnique({
     where: { tenantId: user.tenantId },
   });
 
+  if (!subscription) {
+    return res.status(404).json({ error: "Subscription not found" });
+  }
+
+  const currentPeriodEnd = new Date();
+  currentPeriodEnd.setDate(currentPeriodEnd.getDate() + plan.durationDays);
+
+  await prisma.subscription.update({
+    where: { tenantId: user.tenantId },
+    data: {
+      plan: plan.label,
+      status: "active",
+      currentPeriodEnd,
+    },
+  });
+
   const response = await paystack.post("/transaction/initialize", {
     email: user.email,
+    amount: plan.amount,
     plan: planCode,
     callback_url: `${process.env.FRONTEND_URL}/dashboard`,
   });

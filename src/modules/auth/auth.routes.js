@@ -5,6 +5,7 @@ import {auth} from "../../middleware/auth.js";
 const router = Router();
 
 router.post("/register", authController.register);
+router.get("/subscription", auth, authController.getSubscription);
 router.post("/login", authController.login);
 router.get("/me", auth, authController.me);
 
