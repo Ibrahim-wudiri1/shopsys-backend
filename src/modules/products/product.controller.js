@@ -3,6 +3,7 @@ import { productService } from "./product.service.js";
 export const productController = {
     create: async (req, res, next) => {
         try {
+            console.log("Creating product with data:", req.body);
             const product = await productService.createProduct(req.user.tenantId, req.body);
             res.status(201).json(product);
         } catch (err) {
