@@ -24,6 +24,18 @@ export const userService = {
                 email: data.email,
                 password: hashed,
                 role: data.role || "CASHIER",
+                userShops: data.shopIds ? {
+                  create: data.shopIds.map((shopId) => ({
+                    shop: { connect: { id: shopId } }
+                  }))
+                } : undefined,
+            },
+            include: {
+              userShops: {
+                include: {
+                  shop: true,
+                },
+              },
             },
         });
 
@@ -33,19 +45,41 @@ export const userService = {
             email: user.email,
             role: user.role,
             tenantId: user.tenantId,
+            isActive: user.isActive,
+            shops: user.userShops.map((us) => ({ id: us.shop.id, name: us.shop.name })),
         };
     },
 
     getAllUsers: async (tenantId) => {
-        return await prisma.user.findMany({
+        const users = await prisma.user.findMany({
             where: {tenantId},
-            select: {id: true, name: true, email: true, role: true, createdAt: true},
+            include: {
+              userShops: {
+                include: { shop: true },
+              },
+            },
             orderBy: {createdAt: "desc"},
         });
+
+        return users.map((user) => ({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            createdAt: user.createdAt,
+            isActive: user.isActive,
+            tenantId: user.tenantId,
+            shops: user.userShops.map((us) => ({ id: us.shop.id, name: us.shop.name })),
+        }));
     },
 
     getUserById: async (tenantId, id) => {
-        const user = await prisma.user.findFirst({where: {id, tenantId}});
+        const user = await prisma.user.findFirst({
+          where: {id, tenantId},
+          include: {
+            userShops: { include: { shop: true } },
+          },
+        });
         if (!user) throw new Error("User not found");
 
          return {
@@ -54,6 +88,8 @@ export const userService = {
             email: user.email,
             role: user.role,
             tenantId: user.tenantId,
+            isActive: user.isActive,
+            shops: user.userShops.map((us) => ({ id: us.shop.id, name: us.shop.name })),
         };
     },
 
@@ -68,6 +104,9 @@ export const userService = {
         let updateData = {name: data.name, role: data.role};
         if (data.password){
             updateData.password = await bcrypt.hash(data.password, 10);
+        }
+        if (data.isActive !== undefined) {
+            updateData.isActive = data.isActive;
         }
 
         return await prisma.user.update({where: {id}, data: updateData,});

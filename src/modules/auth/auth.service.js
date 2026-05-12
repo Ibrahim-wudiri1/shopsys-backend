@@ -76,6 +76,8 @@ export const authService = {
 
         if (!user) throw new Error("Invalid email or password");
 
+        if (!user.isActive) throw new Error("Your account has been deactivated. Please contact your administrator.");
+
         const match = await bcrypt.compare(password, user.password);
         if (!match) throw new Error("Invalid email or password");
 
