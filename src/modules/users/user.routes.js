@@ -10,6 +10,7 @@ router.post("/", auth, authorize("TENANT_ADMIN"), tenantGuard, userController.cr
 router.get("/", auth, authorize("TENANT_ADMIN","MANAGER"), tenantGuard, userController.list);
 router.get("/:id", auth, authorize("TENANT_ADMIN","MANAGER"), tenantGuard, userController.getOne);
 router.put("/:id", auth, authorize("TENANT_ADMIN","MANAGER"), tenantGuard, userController.update);
+router.put("/:id/password", auth, authorize("TENANT_ADMIN", "MANAGER", "CASHIER"), tenantGuard, userController.changePassword);
 router.delete("/:id", auth, authorize("TENANT_ADMIN"), tenantGuard, userController.remove);
 
 export default router;

@@ -25,7 +25,7 @@ router.use("/sales", salesRoutes);
 router.use("/suppliers", supplierRoutes);
 router.use("/customers", customerRoutes);
 router.use("/reports", reportsRoutes);
-router.use("/category", categoriesRoutes);
+router.use("/shops/:shopId/categories", categoriesRoutes);
 router.use("/shops", userShopRoutes);
 
 router.use("/billing", billingRoutes);

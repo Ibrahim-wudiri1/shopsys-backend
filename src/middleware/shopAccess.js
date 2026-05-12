@@ -19,6 +19,7 @@ export const shopAccess = async (req, res, next) => {
       });
     }
 
+    req.shopId = shopId;
     next();
 
   } catch (err) {

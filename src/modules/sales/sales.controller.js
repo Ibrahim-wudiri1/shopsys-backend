@@ -1,4 +1,5 @@
 import { salesService } from "./sales.service.js";
+import { mergeOfflineSales, validateOfflineSaleData, getInventorySnapshot } from "../../utils/syncMerge.js";
 
 export const salesController = {
   create: async (req, res, next) => {
@@ -64,6 +65,52 @@ export const salesController = {
       res.status(200).json(sale);
     } catch (err) {
       console.error("Error fetching sale:", err.message);
+      next(err);
+    }
+  },
+
+  /**
+   * Sync offline sales (batch create from client)
+   */
+  syncOffline: async (req, res, next) => {
+    try {
+      const { sales } = req.body;
+
+      // Validate request
+      if (!Array.isArray(sales) || sales.length === 0) {
+        return res.status(400).json({ message: "Sales array is required" });
+      }
+
+      if (sales.length > 100) {
+        return res.status(400).json({ message: "Maximum 100 sales per sync" });
+      }
+
+      const tenantId = req.user.tenantId;
+      const userId = req.user.id;
+
+      // Validate and enrich sales data
+      const enrichedSales = sales.map(sale => ({
+        ...sale,
+        tenantId,
+        userId,
+      }));
+
+      // Use sync merge logic
+      const result = await mergeOfflineSales(tenantId, enrichedSales);
+
+      // Add current inventory snapshot for conflict resolution
+      if (result.conflicts.length > 0 && enrichedSales.length > 0) {
+        const shopId = enrichedSales[0].shopId;
+        const inventorySnapshot = await getInventorySnapshot(tenantId, shopId);
+        result.conflicts.forEach(conflict => {
+          conflict.currentInventory = inventorySnapshot;
+        });
+      }
+
+      // Return detailed response (207 Multi-Status)
+      res.status(207).json(result);
+    } catch (err) {
+      console.error("Error syncing offline sales:", err.message);
       next(err);
     }
   },

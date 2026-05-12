@@ -21,7 +21,6 @@ model Tenant {
   inventories    Inventory[]
   stockMovements StockMovement[]
   subscriptions Subscription?
-  categories     Category[]
   purchases      Purchase[]
 }
 
@@ -55,8 +54,9 @@ model Shop {
   name     String
   location String?
 
-  products Product[]
-  sales    Sale[]
+  products  Product[]
+  sales     Sale[]
+  categories Category[]
 
   userShops UserShop[]
   purchases Purchase[]
@@ -78,16 +78,17 @@ model UserShop {
 
 model Category {
   id       String @id @default(uuid())
+  shopId   String?
   tenantId String
   name     String
 
-  tenant   Tenant    @relation(fields: [tenantId], references: [id])
+  shop     Shop?      @relation(fields: [shopId], references: [id])
   products Product[]
 
   createdAt DateTime @default(now())
 
-  @@unique([tenantId, name])
-  @@index([tenantId])
+  @@unique([shopId, name, tenantId])
+  @@index([shopId])
 }
 
 model Supplier {

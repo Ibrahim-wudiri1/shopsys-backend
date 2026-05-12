@@ -11,5 +11,6 @@ router.get("/", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantG
 router.post("/stock-in", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.stockIn);
 router.post("/stock-out", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.stockOut);
 router.get("/movements/:productId", auth, authorize("STAFF", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.movementHistory);
+router.get("/sync", auth, authorize("STAFF", "CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, inventoryController.syncInventory);
 
 export default router;

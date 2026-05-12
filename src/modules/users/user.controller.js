@@ -45,5 +45,21 @@ export const userController ={
             next(err);
         }
     },
+
+    changePassword: async (req, res, next) => {
+        try {
+            if (req.params.id !== req.user.id && req.user.role !== 'TENANT_ADMIN') {
+                return res.status(403).json({ message: 'Not authorized to change this user\'s password' });
+            }
+            const { newPassword } = req.body;
+            if (!newPassword || newPassword.length < 6) {
+                return res.status(400).json({ message: 'Password must be at least 6 characters' });
+            }
+            await userService.changePassword(req.params.id, newPassword);
+            res.json({ message: 'Password changed successfully' });
+        } catch (err) {
+            next(err);
+        }
+    },
 };
 

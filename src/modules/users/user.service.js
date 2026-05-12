@@ -80,4 +80,12 @@ export const userService = {
         await prisma.user.delete({where: {id}});
         return {message: "User deleted successfully"};
     },
+
+    changePassword: async (userId, newPassword) => {
+        const hashed = await bcrypt.hash(newPassword, 10);
+        await prisma.user.update({
+            where: { id: userId },
+            data: { password: hashed }
+        });
+    },
 };

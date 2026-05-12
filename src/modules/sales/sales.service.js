@@ -1,7 +1,7 @@
 import { prisma } from "../../config/db.js";
 
 export const salesService = {
-  createSale: async (tenantId, shopId, userId, items, paymentType) => {
+  createSale: async (tenantId, shopId, userId, items, paymentType, metadata = {}) => {
     if (!items || items.length === 0) {
       throw new Error("No items in sale");
     }
@@ -41,10 +41,11 @@ export const salesService = {
           data: {
             tenantId,
             productId: product.id,
+            shopId,
             userId,
             quantity: item.quantity,
             type: "OUT",
-            note: "Sale transaction",
+            notes: metadata.offlineId ? `Offline sale: ${metadata.offlineId}` : "Sale transaction",
           },
         });
       }
@@ -56,6 +57,12 @@ export const salesService = {
           cashierId: userId,
           totalAmount,
           paymentType,
+          customerId: metadata.customerId || null,
+          metadata: metadata.offlineId ? {
+            offlineId: metadata.offlineId,
+            syncedOffline: true,
+            originalTimestamp: metadata.originalTimestamp || new Date().toISOString(),
+          } : undefined,
         },
       });
 

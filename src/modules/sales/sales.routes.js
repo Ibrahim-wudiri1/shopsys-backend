@@ -9,5 +9,6 @@ const router = Router();
 router.post("/", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.create);
 router.get("/", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.list);
 router.get("/:id", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.getOne);
+router.post("/sync", auth, authorize("CASHIER", "SUPER_ADMIN", "TENANT_ADMIN"), tenantGuard, salesController.syncOffline);
 
 export default router;
