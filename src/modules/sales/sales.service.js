@@ -41,11 +41,10 @@ export const salesService = {
           data: {
             tenantId,
             productId: product.id,
-            shopId,
             userId,
             quantity: item.quantity,
             type: "OUT",
-            notes: metadata.offlineId ? `Offline sale: ${metadata.offlineId}` : "Sale transaction",
+            note: metadata.offlineId ? `Offline sale: ${metadata.offlineId}` : "Sale transaction",
           },
         });
       }
@@ -100,7 +99,7 @@ export const salesService = {
     return prisma.sale.findMany({
       where,
       include: {
-        // user: { select: { name: true } },
+        cashier: { select: { name: true } },
         shop: { select: { name: true } },
         items: {
           include: {

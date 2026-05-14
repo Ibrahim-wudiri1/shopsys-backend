@@ -178,12 +178,10 @@ async function createSaleWithInventoryUpdate(tenantId, saleData, inventoryMap) {
         data: {
           tenantId,
           productId: item.productId,
-          shopId: saleData.shopId,
-          saleId: sale.id,
           type: "OUT",
           quantity: item.quantity,
           userId: saleData.userId,
-          notes: `Offline sale synced: ${saleData.offlineId}`,
+          note: `Offline sale synced: ${saleData.offlineId}`,
         },
       });
     }
