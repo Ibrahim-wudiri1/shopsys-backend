@@ -22,7 +22,7 @@ export const categoryController = {
         req.shopId,
         req.user?.tenantId
       );
-      console.log("Category: ", category);
+      // console.log("Category: ", category);
       res.json(category);
     } catch (err) {
       console.error(err);
