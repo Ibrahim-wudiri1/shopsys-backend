@@ -58,7 +58,7 @@ export const categoryService = {
     return await tryCreateCategory(data, shopId, tenantId);
   },
 
-  listCategory: async (shopId, tenantId) => {
+  listCategory: async (tenantId) => {
     try {
       return await prisma.category.findMany({
         where: { shopId },

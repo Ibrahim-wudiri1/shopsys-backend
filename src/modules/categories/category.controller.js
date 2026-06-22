@@ -19,10 +19,10 @@ export const categoryController = {
   list: async (req, res, next) => {
     try {
       const category = await categoryService.listCategory(
-        req.shopId,
+        // req.shopId,
         req.user?.tenantId
       );
-      // console.log("Category: ", category);
+      console.log("Category: ", category);
       res.json(category);
     } catch (err) {
       console.error(err);
