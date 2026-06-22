@@ -61,7 +61,7 @@ export const categoryService = {
   listCategory: async (tenantId) => {
     try {
       return await prisma.category.findMany({
-        where: { shopId },
+        where: { tenantId },
         orderBy: { createdAt: "desc" },
       });
     } catch (error) {
