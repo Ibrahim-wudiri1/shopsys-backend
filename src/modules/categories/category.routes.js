@@ -8,7 +8,7 @@ import { shopAccess } from "../../middleware/shopAccess.js";
 const router = Router({ mergeParams: true });
 
 router.post("/", auth, authorize("TENANT_ADMIN", "MANAGER"), tenantGuard, shopAccess, categoryController.create);
-router.get("/", auth, authorize("TENANT_ADMIN", "MANAGER"), tenantGuard, shopAccess, categoryController.list);
+router.get("/", auth, authorize("TENANT_ADMIN", "MANAGER"), tenantGuard, categoryController.list);
 router.get("/:id", auth, authorize("TENANT_ADMIN", "MANAGER"), tenantGuard, shopAccess, categoryController.getOne);
 router.put("/:id", auth, authorize("TENANT_ADMIN", "MANAGER"), tenantGuard, shopAccess, categoryController.update);
 router.delete("/:id", auth, authorize("TENANT_ADMIN", "MANAGER"), tenantGuard, shopAccess, categoryController.remove);
